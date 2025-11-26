@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Scroll Awards 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.birds.min.js"></script>
+    <style>
+        :root {
+            --gold-primary: #d4af37;
+            --gold-light: #f4e4bc;
+            --gold-dark: #b8941f;
+            --black-charcoal: #1a1a1a;
+            --black-rich: #0d0d0d;
+            --white-ivory: #faf8f3;
+            --silver-accent: #c0c0c0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--black-rich) 0%, var(--black-charcoal) 50%, #2c2c2c 100%);
+            min-height: 100vh;
+            color: var(--white-ivory);
+            overflow-x: hidden;
+        }
+        
+        .cinema-header {
+            background: linear-gradient(135deg, var(--black-rich) 0%, var(--black-charcoal) 100%);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid var(--gold-primary);
+        }
+        
+        .gold-text {
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-light) 50%, var(--gold-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+        
+        .gold-border {
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2), inset 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+        
+        .glass-card {
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gold-button {
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+            color: var(--black-rich);
+            font-weight: 700;
+            border: none;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .gold-button:hover {
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+        
+        .black-button {
+            background: linear-gradient(135deg, var(--black-charcoal) 0%, var(--black-rich) 100%);
+            color: var(--gold-light);
+            font-weight: 600;
+            border: 2px solid var(--gold-primary);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .black-button:hover {
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+            color: var(--black-rich);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .nomination-card {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(13, 13, 13, 0.9) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nomination-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .nomination-card:hover::before {
+            left: 100%;
+        }
+        
+        .nomination-card:hover {
+            border-color: var(--gold-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.2);
+        }
+        
+        .stat-card {
+            background: rgba(26, 26, 26, 0.6);
+            border: 1px solid var(--gold-primary);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: scale(1.05);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .cinema-input {
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            color: var(--white-ivory);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .cinema-input:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            background: rgba(26, 26, 26, 0.9);
+        }
+        
+        .cinema-select {
+            background: rgba(26, 26, 26, 0.8);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            color: var(--white-ivory);
+            backdrop-filter: blur(5px);
+        }
+        
+        .cinema-select:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+        
+        .floating-trophy {
+            animation: float-gold 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
+        }
+        
+        @keyframes float-gold {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(2deg); }
+            50% { transform: translateY(-5px) rotate(0deg); }
+            75% { transform: translateY(-15px) rotate(-2deg); }
+        }
+        
+        .gold-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gold-shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .cinema-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .award-badge {
+            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-light) 100%);
+            color: var(--black-rich);
+            font-weight: 700;
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+        }
+        
+        .remove-btn {
+            background: transparent;
+            color: var(--white-ivory);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 1.25rem;
+            line-height: 1;
+            padding: 0;
+        }
+        
+        .remove-btn:hover {
+            color: #dc2626;
+            transform: scale(1.1);
+        }
+        
+        .cinema-footer {
+            background: linear-gradient(135deg, var(--black-rich) 0%, var(--black-charcoal) 100%);
+            border-top: 2px solid var(--gold-primary);
+        }
+        
+        /* Стиль для уже выбранных номинаций в списке */
+        .selected-option {
+            color: var(--gold-primary) !important;
+            font-weight: 700 !important;
+            background-color: rgba(212, 175, 55, 0.1) !important;
+        }
+        
+        /* Мобильная адаптивность - улучшенная */
+        @media (max-width: 768px) {
+            .cinema-header {
+                padding: 1.5rem 1rem;
+            }
+            
+            .glass-card {
+                margin: 0.75rem;
+                padding: 1.25rem;
+                border-radius: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 1.75rem;
+            }
+            
+            .floating-trophy {
+                font-size: 2.5rem;
+            }
+            
+            .gold-button, .black-button {
+                width: 100%;
+                margin-bottom: 0.75rem;
+                padding: 0.875rem 1.5rem;
+                font-size: 0.875rem;
+            }
+            
+            .nomination-card {
+                padding: 1rem;
+                border-radius: 1rem;
+            }
+            
+            .award-badge {
+                font-size: 0.625rem;
+                padding: 0.375rem 0.75rem;
+            }
+            
+            .cinema-input, .cinema-select {
+                padding: 0.875rem 1rem;
+                font-size: 0.875rem;
+            }
+            
+            .optional-field {
+                margin-bottom: 1.25rem;
+            }
+            
+            .optional-field label {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            #nominationsList h3 {
+                font-size: 1.25rem;
+                margin-bottom: 1rem;
+            }
+            
+            .remove-btn {
+                width: 25px;
+                height: 25px;
+                font-size: 1.125rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            .floating-trophy {
+                font-size: 2rem;
+            }
+            
+            .glass-card {
+                padding: 1rem;
+                margin: 0.5rem;
+            }
+            
+            .gold-text {
+                font-size: 1.5rem;
+                line-height: 1.2;
+            }
+            
+            .cinema-header p {
+                font-size: 1rem;
+            }
+            
+            .stat-card {
+                padding: 1rem;
+            }
+            
+            .award-badge {
+                font-size: 0.5rem;
+                padding: 0.25rem 0.5rem;
+            }
+            
+            .remove-btn {
+                width: 25px;
+                height: 25px;
+                font-size: 1.125rem;
+            }
+            
+            .optional-field label {
+                font-size: 0.875rem;
+            }
+            
+            .cinema-input, .cinema-select {
+                padding: 0.75rem 0.875rem;
+                font-size: 0.8125rem;
+            }
+        }
+        
+        /* Очень маленькие экраны */
+        @media (max-width: 360px) {
+            .glass-card {
+                padding: 0.875rem;
+                margin: 0.375rem;
+            }
+            
+            .gold-text {
+                font-size: 1.25rem;
+            }
+            
+            .floating-trophy {
+                font-size: 1.75rem;
+            }
+            
+            .stat-number {
+                font-size: 1.25rem;
+            }
+            
+            .gold-button, .black-button {
+                padding: 0.75rem 1.25rem;
+                font-size: 0.8125rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cinema-background" id="vanta-bg"></div>
+    
+    <header class="cinema-header py-12 md:py-16 relative">
+        <div class="max-w-6xl mx-auto px-3 md:px-4 text-center relative z-10">
+            <div class="floating-trophy text-4xl md:text-6xl mb-4 md:mb-6">🏆</div>
+            <h1 class="text-2xl md:text-4xl lg:text-6xl font-bold tracking-tight gold-text mb-3 md:mb-4 gold-shimmer px-2">
+                The Scroll Awards 2025
+            </h1>
+            <p class="text-base md:text-xl lg:text-2xl text-white-ivory font-semibold mb-6 md:mb-8 max-w-3xl mx-auto leading-relaxed px-2">
+                Номинируйте лучшие киноканалы и материалы года
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 mt-8 md:mt-12 max-w-4xl mx-auto px-2">
+                <div class="stat-card rounded-xl md:rounded-2xl p-3 md:p-6 text-center">
+                    <div class="stat-number text-xl md:text-2xl lg:text-3xl" id="nominationsCount">0</div>
+                    <div class="text-gold-light font-semibold text-sm md:text-base lg:text-lg">Номинантов от вас</div>
+                </div>
+                <div class="stat-card rounded-xl md:rounded-2xl p-3 md:p-6 text-center border-2 border-gold-primary">
+                    <div class="stat-number text-xl md:text-2xl lg:text-3xl">16</div>
+                    <div class="text-gold-light font-semibold text-sm md:text-base lg:text-lg">Номинаций</div>
+                </div>
+                <div class="stat-card rounded-xl md:rounded-2xl p-3 md:p-6 text-center">
+                    <div class="stat-number text-xl md:text-2xl lg:text-3xl">∞</div>
+                    <div class="text-white-ivory font-semibold text-sm md:text-base lg:text-lg">Участников</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-3 md:px-4 py-8 md:py-16">
+        <div class="glass-card p-4 md:p-8 lg:p-12 rounded-2xl md:rounded-3xl">
+            <h2 class="text-xl md:text-3xl lg:text-4xl font-bold text-white-ivory mb-4 md:mb-6 text-center">
+                <span class="gold-text">Форма заполнения</span>
+            </h2>
+            <p class="text-white-ivory mb-6 md:mb-8 text-sm md:text-base lg:text-lg text-center max-w-3xl mx-auto leading-relaxed opacity-90 px-2">
+                Добавьте хотя бы одну номинацию. Для каждой номинации необходимо заполнить оба поля.
+                <span class="block mt-2 md:mt-4 text-gold-light font-bold text-base md:text-xl">★ Обязательна хотя бы одна номинация с заполненными полями!</span>
+            </p>
+
+            <form action="#" method="POST" id="nominationForm" class="space-y-6 md:space-y-8">
+                
+                <div class="optional-field">
+                    <label for="category" class="block text-base md:text-xl font-semibold mb-2 md:mb-4 text-white-ivory">
+                        Выберите Номинацию:
+                        <span class="text-gold-light font-normal text-xs md:text-base block mt-1">(Золотым выделены уже выбранные)</span>
+                    </label>
+                    <select id="category" name="category" class="cinema-select mt-1 block w-full pl-3 md:pl-4 pr-8 md:pr-10 py-3 md:py-4 text-sm md:text-lg rounded-lg md:rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-gold-primary">
+                        <option value="" selected>— Выберите из списка —</option>
+
+                        <optgroup label="🎬 КАНАЛЫ (ссылка на канал)" class="font-semibold text-gold-light">
+                            <option value="Лучший канал">Лучший киноканал</option>
+                            <option value="Лучший рецензент/кинокритик">Лучший рецензент/кинокритик</option>
+                            <option value="Лучший новостной канал">Лучший новостной канал</option>
+                            <option value="Лучший тематический канал">Лучший тематический канал</option>
+                            <option value="Лучший дизайн/оформление">Лучший дизайн/оформление</option>
+                            <option value="Самый оригинальный формат">Самый оригинальный формат</option>
+                            <option value="Открытие года">Спец. приз: «Открытие года»</option>
+                            <option value="Вклад в коммьюнити">Спец. приз: «За вклад в развитие коммьюнити»</option>
+                        </optgroup>
+
+                        <optgroup label="📝 ПОСТЫ (прямая ссылка на пост)" class="font-semibold text-gold-light">
+                            <option value="Лучший пост/материал года">Лучший пост/материал года</option>
+                            <option value="Самый смешной пост">Самый смешной пост/материал года</option>
+                        </optgroup>
+
+                        <optgroup label="⭐ ДРУГОЕ (название/имя)" class="font-semibold text-gold-light">
+                            <option value="Фильм года">Фильм года</option>
+                            <option value="Сериал года">Сериал года</option>
+                            <option value="Актер года">Актер года</option>
+                            <option value="Актриса года">Актриса года</option>
+                            <option value="Режиссер года">Режиссер года</option>
+                            <option value="Киномем года">Киномем года</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="optional-field">
+                    <label for="nomination_link" class="block text-base md:text-xl font-semibold mb-2 md:mb-4 text-white-ivory">
+                        Ссылка или Название:
+                    </label>
+                    <input type="text" id="nomination_link" name="nomination_link" placeholder="@channelname, https://t.me/post_id или Название" class="cinema-input mt-1 block w-full py-3 md:py-4 px-3 md:px-4 rounded-lg md:rounded-xl shadow-lg text-sm md:text-lg" />
+                </div>
+                
+                <div class="flex flex-col md:flex-row justify-center gap-3 md:gap-6 pt-6 md:pt-8">
+                    <button type="button" id="addNominationBtn" class="gold-button py-3 md:py-4 px-6 md:px-10 rounded-lg md:rounded-xl text-sm md:text-lg shadow-lg transition-all duration-300">
+                        ✨ Добавить номинацию
+                    </button>
+                    
+                    <button type="submit" id="submitBtn" class="black-button py-3 md:py-4 px-6 md:px-10 rounded-lg md:rounded-xl text-sm md:text-lg shadow-lg transition-all duration-300 opacity-50 cursor-not-allowed">
+                        🚀 Отправить номинации
+                    </button>
+                </div>
+                
+                <div id="nominationsList" class="mt-8 md:mt-12">
+                    <h3 class="text-lg md:text-2xl lg:text-3xl font-bold text-white-ivory mb-4 md:mb-8 text-center">
+                        <span class="gold-text">🏆 Ваши номинации:</span>
+                        <span class="block text-xs md:text-lg font-normal text-white-ivory opacity-70 mt-1 md:mt-2">(обязательно хотя бы одна)</span>
+                    </h3>
+                    <div id="nominationsContainer" class="min-h-[100px] space-y-3 md:space-y-4">
+                        <!-- Здесь будут отображаться добавленные номинации -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="cinema-footer py-6 md:py-12 mt-12 md:mt-20">
+        <div class="max-w-6xl mx-auto px-3 md:px-4 text-center">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-6">
+                <div class="text-white-ivory opacity-80 text-sm md:text-lg">
+                    © 2025 The Scroll Awards.<br><span class="gold-text font-bold"><a href="https://t.me/non_script">избави нас от сценария</a></span>.
+                </div>
+                <div class="flex gap-3 md:gap-6">
+                    <div class="gold-text font-bold text-sm md:text-lg">#Кино</div>
+                    <div class="gold-text font-bold text-sm md:text-lg">#Премия</div>
+                    <div class="text-white-ivory font-bold text-sm md:text-lg">#Telegram</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Ключ для хранения данных в localStorage
+        const STORAGE_KEY = 'scrollAwardsNominations';
+        
+        // Массив для хранения всех номинаций
+        let nominations = [];
+        
+        // Переменная для хранения данных в нужном формате
+        let nominationsData = '';
+        
+        // Инициализация Vanta.js фона
+        let vantaEffect;
+        
+        // Загружаем сохраненные номинации при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация анимированного фона
+            vantaEffect = VANTA.BIRDS({
+                el: "#vanta-bg",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                backgroundColor: 0x1a1a1a,
+                color1: 0xd4af37,
+                color2: 0xf4e4bc,
+                colorMode: "lerp",
+                birdSize: 1.2,
+                wingSpan: 25.00,
+                speedLimit: 3.00,
+                separation: 35.00,
+                alignment: 25.00,
+                cohesion: 25.00,
+                quantity: 3.00
+            });
+            
+            loadNominations();
+            updateSubmitButton();
+            updateStats();
+            updateSelectedOptions();
+            
+            // Добавляем обработчики событий
+            document.getElementById('addNominationBtn').addEventListener('click', addNomination);
+            document.getElementById('nominationForm').addEventListener('submit', submitForm);
+        });
+        
+        // Очистка Vanta.js при размонтировании
+        window.addEventListener('beforeunload', function() {
+            if (vantaEffect) {
+                vantaEffect.destroy();
+            }
+        });
+        
+        // Функция добавления номинации
+        function addNomination() {
+            const categorySelect = document.getElementById('category');
+            const linkInput = document.getElementById('nomination_link');
+            
+            let category = categorySelect.value;
+            let link = linkInput.value.trim();
+            
+            // ВАЛИДАЦИЯ: проверяем, что оба поля заполнены
+            if (!category || !link) {
+                showNotification('❌ Заполните оба поля: номинацию и ссылку/название!', 'error');
+                return;
+            }
+            
+            // Создаем объект номинации
+            const nomination = {
+                id: Date.now(),
+                category: category,
+                link: link,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Добавляем в массив
+            nominations.push(nomination);
+            
+            // Сохраняем в localStorage
+            saveNominations();
+            
+            // Обновляем отображение
+            renderNominations();
+            updateSubmitButton();
+            updateStats();
+            updateSelectedOptions();
+            
+            // Очищаем форму
+            categorySelect.value = '';
+            linkInput.value = '';
+            
+            // Показываем уведомление
+            showNotification('✅ Номинация добавлена!', 'success');
+        }
+        
+        // Функция удаления номинации
+        function removeNomination(id) {
+            nominations = nominations.filter(n => n.id !== id);
+            saveNominations();
+            renderNominations();
+            updateSubmitButton();
+            updateStats();
+            updateSelectedOptions();
+            showNotification('Номинация удалена', 'info');
+        }
+        
+        // Функция отображения номинаций
+        function renderNominations() {
+            const container = document.getElementById('nominationsContainer');
+            
+            if (nominations.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 md:py-12 text-white-ivory opacity-60">
+                        <div class="text-3xl md:text-4xl mb-3 md:mb-4">🎬</div>
+                        <p class="text-sm md:text-base">Пока нет номинаций. Добавьте первую!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = nominations.map(nomination => `
+                <div class="nomination-card rounded-xl md:rounded-2xl p-4 md:p-6 relative group">
+                    <div class="flex justify-between items-start gap-3 md:gap-4">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-wrap items-center gap-2 mb-2 md:mb-3">
+                                <span class="award-badge text-xs md:text-sm">${nomination.category}</span>
+                            </div>
+                            ${nomination.link ? `
+                                <div class="text-white-ivory text-xs md:text-base break-words">
+                                    ${nomination.link.startsWith('http') ? 
+                                        `<a href="${nomination.link}" target="_blank" class="text-gold-light hover:text-gold-primary underline">${nomination.link}</a>` : 
+                                        nomination.link
+                                    }
+                                </div>
+                            ` : ''}
+                            <div class="text-white-ivory opacity-60 text-xs mt-1 md:mt-2">
+                                ${new Date(nomination.timestamp).toLocaleString('ru-RU')}
+                            </div>
+                        </div>
+                        <button onclick="removeNomination(${nomination.id})" 
+                                class="remove-btn opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0"
+                                title="Удалить номинацию">
+                            ×
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Функция обновления выбранных опций в списке
+        function updateSelectedOptions() {
+            const categorySelect = document.getElementById('category');
+            const options = categorySelect.querySelectorAll('option');
+            
+            // Сбрасываем все опции
+            options.forEach(option => {
+                option.classList.remove('selected-option');
+            });
+            
+            // Подсвечиваем выбранные номинации
+            nominations.forEach(nomination => {
+                options.forEach(option => {
+                    if (option.value === nomination.category) {
+                        option.classList.add('selected-option');
+                    }
+                });
+            });
+        }
+        
+        // Функция обновления кнопки отправки
+        function updateSubmitButton() {
+            const submitBtn = document.getElementById('submitBtn');
+            const hasNominations = nominations.length > 0;
+            
+            if (hasNominations) {
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                submitBtn.classList.add('hover:scale-105');
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                submitBtn.classList.remove('hover:scale-105');
+                submitBtn.disabled = true;
+            }
+        }
+        
+        // Функция обновления статистики
+        function updateStats() {
+            document.getElementById('nominationsCount').textContent = nominations.length;
+        }
+        
+        // Функция сохранения в localStorage
+        function saveNominations() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(nominations));
+        }
+        
+        // Функция загрузки из localStorage
+        function loadNominations() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                nominations = JSON.parse(saved);
+                renderNominations();
+            }
+        }
+        
+        // Функция форматирования данных для отправки
+        function formatNominationsData() {
+            nominationsData = '';
+            nominations.forEach(nomination => {
+                nominationsData += `${nomination.category};${nomination.link || ''}\n`;
+            });
+            return nominationsData;
+        }
+        
+        // Функция отправки формы в Google Forms
+        function submitForm(e) {
+            e.preventDefault();
+            
+            if (nominations.length === 0) {
+                showNotification('Добавьте хотя бы одну номинацию!', 'error');
+                return;
+            }
+            
+            // Форматируем данные
+            const formattedData = formatNominationsData();
+            
+            // Показываем уведомление о начале отправки
+            showNotification('Номинации отправляются...', 'info');
+            
+            // Создаем скрытую форму для отправки в Google Forms
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSctk4A-VRO_M8f0DgtSOvZtx8Z1staYwaCf5x6mWuBheQBISw/formResponse';
+            form.target = 'googleFormsFrame';
+            form.style.display = 'none';
+            
+            // Создаем поле для данных
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'entry.1292618653';
+            input.value = formattedData;
+            
+            form.appendChild(input);
+            document.body.appendChild(form);
+            
+            // Создаем скрытый iframe для отправки
+            let iframe = document.getElementById('googleFormsFrame');
+            if (!iframe) {
+                iframe = document.createElement('iframe');
+                iframe.name = 'googleFormsFrame';
+                iframe.id = 'googleFormsFrame';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+            }
+            
+            // Отправляем форму
+            form.submit();
+            
+            // Показываем успешное уведомление
+            setTimeout(() => {
+                showNotification('✅ Номинации успешно отправлены! Спасибо за участие!', 'success');
+                
+                // Очистка после успешной отправки
+                setTimeout(() => {
+                    nominations = [];
+                    nominationsData = '';
+                    localStorage.removeItem(STORAGE_KEY);
+                    renderNominations();
+                    updateSubmitButton();
+                    updateStats();
+                    updateSelectedOptions();
+                    
+                    // Удаляем временные элементы
+                    document.body.removeChild(form);
+                    if (iframe) document.body.removeChild(iframe);
+                }, 2000);
+            }, 1500);
+        }
+        
+        // Функция показа уведомлений
+        function showNotification(message, type = 'info') {
+            // Создаем контейнер для уведомлений, если его нет
+            let notificationContainer = document.getElementById('notificationContainer');
+            if (!notificationContainer) {
+                notificationContainer = document.createElement('div');
+                notificationContainer.id = 'notificationContainer';
+                notificationContainer.className = 'fixed top-4 right-4 z-50 space-y-2';
+                document.body.appendChild(notificationContainer);
+            }
+            
+            // Создаем уведомление
+            const notification = document.createElement('div');
+            notification.className = `
+                px-4 py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl shadow-lg text-white font-semibold transform translate-x-full transition-transform duration-300 text-xs md:text-base
+                ${type === 'success' ? 'bg-gradient-to-r from-green-500 to-green-600' : ''}
+                ${type === 'error' ? 'bg-gradient-to-r from-red-500 to-red-600' : ''}
+                ${type === 'info' ? 'bg-gradient-to-r from-gold-primary to-gold-dark text-black-rich' : ''}
+            `;
+            notification.textContent = message;
+            
+            notificationContainer.appendChild(notification);
+            
+            // Анимация появления
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Автоматическое исчезновение
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
